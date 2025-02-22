@@ -1,0 +1,53 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Add a comment{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-12">
+    <div class="bg-white p-8 rounded-lg shadow-sm">
+        {% if comment %}
+            <h2 class="text-2xl font-serif text-[#2f3730] mb-6">
+                Your comment has been added
+            </h2>
+            <p class="text-gray-600 mb-4">
+                Thank you for your comment. It will appear on the site once it has been reviewed.
+            </p>
+            <a href="{{ post.get_absolute_url }}" 
+               class="inline-flex items-center text-[#22c55e] hover:text-[#22c55e]/80 transition-colors">
+                ← Back to {{ post.title }}
+            </a>
+        {% else %}
+            <h2 class="text-2xl font-serif text-[#2f3730] mb-6">
+                Add a comment to "{{ post.title }}"
+            </h2>
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group">
+                        {{ field.errors }}
+                        <label for="{{ field.id_for_label }}" 
+                               class="block text-sm font-medium text-gray-700 mb-1">
+                            {{ field.label }}
+                        </label>
+                        {{ field }}
+                    </div>
+                {% endfor %}
+                <button type="submit" 
+                        class="bg-[#2f3730] text-white px-6 py-2 rounded hover:bg-[#2f3730]/90 transition-colors">
+                    Add comment
+                </button>
+            </form>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .form-group input,
+    .form-group textarea {
+        @apply w-full px-3 py-2 rounded border focus:outline-none focus:ring-1 focus:ring-[#22c55e];
+    }
+    .errorlist {
+        @apply text-red-500 text-sm mt-1 mb-2;
+    }
+</style>
+{% endblock %} 

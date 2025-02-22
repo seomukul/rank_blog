@@ -1,0 +1,44 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Share a Post{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white shadow-md rounded-lg p-6 mt-8">
+    {% if sent %}
+        <h1 class="text-2xl font-semibold text-green-600">Email Successfully Sent</h1>
+        <p class="text-gray-700 mt-2">
+            "{{ post.title }}" was successfully sent to <span class="font-medium">{{ form.cleaned_data.to }}</span>.
+        </p>
+    {% else %}
+        <h1 class="text-2xl font-semibold text-gray-800 mb-4">Share "{{ post.title }}" by Email</h1>
+
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            
+            <div>
+                <label class="block text-gray-700 font-medium">Your Name:</label>
+                <input type="text" name="name" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            </div>
+
+            <div>
+                <label class="block text-gray-700 font-medium">Your Email:</label>
+                <input type="email" name="email" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            </div>
+
+            <div>
+                <label class="block text-gray-700 font-medium">Recipient's Email:</label>
+                <input type="email" name="to" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            </div>
+
+            <div>
+                <label class="block text-gray-700 font-medium">Comments:</label>
+                <textarea name="comments" rows="4" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"></textarea>
+            </div>
+
+            <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                Send Email
+            </button>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}

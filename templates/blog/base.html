@@ -1,0 +1,184 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Rank Challenger{% endblock %}</title>
+    {% block meta %}{% endblock %}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap">
+</head>
+<body class="bg-[#f5f1e9] min-h-screen flex flex-col">
+    <!-- Header & Navigation -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="/" class="text-2xl font-serif text-[#2f3730] hover:text-[#2f3730]/80 transition-colors duration-300">
+                Rank Challenger
+            </a>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center space-x-8">
+                <!-- Primary Nav -->
+                <div class="flex items-center space-x-6">
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/about" class="nav-link">About</a>
+                    <a href="/contact" class="nav-link">Contact</a>
+                </div>
+
+                <!-- Search Button -->
+                <button class="search-btn group flex items-center text-[#2f3730] hover:text-[#22c55e] transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <span class="ml-2 text-sm font-medium">Search</span>
+                </button>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden mobile-menu-btn" aria-label="Menu">
+                <svg class="w-6 h-6 text-[#2f3730]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path class="open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                          d="M4 6h16M4 12h16M4 18h16" />
+                    <path class="close hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                          d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu hidden md:hidden">
+            <div class="px-4 py-3 space-y-3 bg-white border-t border-gray-100">
+                <a href="/" class="mobile-link">Home</a>
+                <a href="/about" class="mobile-link">About</a>
+                <a href="/contact" class="mobile-link">Contact</a>
+                <button class="mobile-link flex items-center w-full">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    Search
+                </button>
+            </div>
+        </div>
+
+        <!-- Search Overlay (Hidden by default) -->
+        <div class="search-overlay hidden fixed inset-0 bg-black/50 z-50">
+            <div class="max-w-2xl mx-auto px-4 pt-[20vh]">
+                <div class="bg-white rounded-lg shadow-xl p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-serif text-[#2f3730]">Search</h2>
+                        <button class="close-search text-gray-500 hover:text-gray-700">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    <form action="{% url 'blog:search' %}" method="get" class="relative">
+                        <input type="search" name="q" 
+                               placeholder="Search articles..." 
+                               class="w-full px-4 py-3 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#22c55e]">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#2f3730] text-white mt-auto">
+        <div class="max-w-7xl mx-auto px-4 py-8">
+            <!-- Footer Content -->
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
+                <!-- Left: Copyright -->
+                <div class="text-white/60">
+                    © {% now "Y" %} Rank Challenger. All rights reserved.
+                </div>
+
+                <!-- Center: Quick Links -->
+                <nav class="flex items-center space-x-6">
+                    <a href="/privacy" class="text-white/60 hover:text-white transition-colors">Privacy</a>
+                    <a href="/terms" class="text-white/60 hover:text-white transition-colors">Terms</a>
+                    <a href="/sitemap.xml" class="text-white/60 hover:text-white transition-colors">Sitemap</a>
+                </nav>
+
+                <!-- Right: Social Links -->
+                <div class="flex items-center space-x-4">
+                    <a href="https://x.com/rankchallenger" target="_blank" rel="noopener noreferrer" 
+                       class="text-white/60 hover:text-white transition-colors" aria-label="Twitter">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.facebook.com/Sabbir.H.Mukul" target="_blank" rel="noopener noreferrer" 
+                        class="text-white/60 hover:text-white transition-colors" aria-label="Facebook">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M22.675 0h-21.35C.6 0 0 .6 0 1.325v21.35C0 23.4.6 24 1.325 24h21.35C23.4 24 24 23.4 24 22.675v-21.35C24 .6 23.4 0 22.675 0zm-3.15 12.1h-3.1v9.9h-4.1v-9.9h-2.7v-3.9h2.7v-2.8c0-2.5 1.5-3.9 3.7-3.9 1.1 0 2.2.1 2.5.1v2.9h-1.7c-1.3 0-1.6.6-1.6 1.5v2.1h3.2l-.4 3.9z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/seomukul/" target="_blank" rel="noopener noreferrer" 
+                       class="text-white/60 hover:text-white transition-colors" aria-label="LinkedIn">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19.5 0h-15C2.01 0 0 2.01 0 4.5v15C0 21.99 2.01 24 4.5 24h15c2.49 0 4.5-2.01 4.5-4.5v-15C24 2.01 21.99 0 19.5 0zM7.5 20h-3v-10h3v10zm-1.5-11.5c-.966 0-1.5-.634-1.5-1.5 0-.866.534-1.5 1.5-1.5s1.5.634 1.5 1.5c0 .866-.534 1.5-1.5 1.5zm15 11.5h-3v-5.5c0-1.25-.025-2.86-1.75-2.86-1.75 0-2.02 1.25-2.02 2.5v5.86h-3v-10h3v1.36c.4-.76 1.38-1.36 2.75-1.36 2.95 0 3.5 1.93 3.5 4.43v5.36z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        .font-serif { font-family: 'Merriweather', serif; }
+        .nav-link {
+            @apply text-[#2f3730] hover:text-[#22c55e] transition-colors text-sm font-medium;
+        }
+        .mobile-link {
+            @apply block text-[#2f3730] hover:text-[#22c55e] transition-colors text-sm font-medium py-2;
+        }
+    </style>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const openIcon = document.querySelector('.open');
+        const closeIcon = document.querySelector('.close');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            openIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+        });
+
+        // Search functionality
+        const searchBtn = document.querySelector('.search-btn');
+        const searchOverlay = document.querySelector('.search-overlay');
+        const closeSearch = document.querySelector('.close-search');
+
+        searchBtn.addEventListener('click', () => {
+            searchOverlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeSearch.addEventListener('click', () => {
+            searchOverlay.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        });
+
+        // Close search on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                searchOverlay.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        });
+    </script>
+</body>
+</html>

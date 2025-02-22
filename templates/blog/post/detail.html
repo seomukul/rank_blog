@@ -1,0 +1,96 @@
+{% extends "blog/base.html" %}
+{% load blog_tags %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<header class="bg-[#2f3730] text-white py-16">
+    <div class="max-w-4xl mx-auto px-4">
+        <div class="mb-4">
+            <a href="{% url 'blog:post_list_by_category' post.category.slug %}" 
+               class="text-[#22c55e] hover:text-[#22c55e]/80 transition-colors">
+                {{ post.category.name }}
+            </a>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-serif mb-4">{{ post.title }}</h1>
+        <div class="flex items-center gap-4 text-sm text-white/60">
+            <span>Written By {{ post.author }}</span>
+            <span>•</span>
+            <time>Updated {{ post.updated|date:"M d, Y" }}</time>
+        </div>
+    </div>
+</header>
+
+{% if post.image %}
+<div class="max-w-4xl mx-auto px-4 -mt-8">
+    <div class="rounded-lg overflow-hidden shadow-xl">
+        <img src="{{ post.image.url }}" alt="{{ post.title }}" class="w-full h-auto object-cover">
+    </div>
+</div>
+{% endif %}
+
+<div class="max-w-5xl mx-auto px-4 py-12">
+    <div class="lg:grid lg:gap-12" style="grid-template-columns: minmax(0, 1fr) 280px">
+        <div class="mx-auto prose lg:mx-0 md:prose-lg">
+            <details class="p-3 mb-4 border lg:hidden border-[#22c55e]/20 rounded-lg not-prose">
+                <summary class="text-lg font-semibold text-[#2f3730]">Table of Contents</summary>
+                <nav class="p-3 pl-4">
+                    {% with headings=post.body|get_headings %}
+                        {% if headings %}
+                            <ul class="space-y-2">
+                                {% for heading in headings %}
+                                    <li class="{% if not heading.level == 2 %}pl-{{ heading.level|multiply:2 }}{% endif %}">
+                                        <a href="#{{ heading.slug }}" class="text-[#2f3730] hover:text-[#22c55e] transition-colors duration-200 {% if heading.level == 2 %}font-medium{% endif %}">
+                                            {{ heading.text }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endwith %}
+                </nav>
+            </details>
+
+            <article>
+                {{ post.body|safe }}
+            </article>
+
+            <div class="mt-12">
+                {% include "blog/post/includes/similar_posts.html" %}
+                {% include "blog/post/includes/comment_form.html" %}
+            </div>
+        </div>
+
+        <aside class="relative hidden lg:block">
+            <nav class="sticky top-24 pt-2 -mt-2">
+                <h2 class="mb-4 text-lg font-semibold text-[#2f3730]">Table of Contents</h2>
+                {% with headings=post.body|get_headings %}
+                    {% if headings %}
+                        <ul class="space-y-2">
+                            {% for heading in headings %}
+                                <li class="{% if not heading.level == 2 %}pl-{{ heading.level|multiply:2 }}{% endif %}">
+                                    <a href="#{{ heading.slug }}" class="text-[#2f3730] hover:text-[#22c55e] transition-colors duration-200 {% if heading.level == 2 %}font-medium{% endif %}">
+                                        {{ heading.text }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+            </nav>
+        </aside>
+    </div>
+</div>
+
+<style>
+    .prose { max-width: 65ch; }
+    .prose h2 { font-size: 2rem; color: #2f3730; scroll-margin-top: 100px; }
+    .prose h3 { font-size: 1.75rem; color: #2f3730; scroll-margin-top: 100px; }
+    .prose h4 { font-size: 1.5rem; color: #2f3730; scroll-margin-top: 100px; }
+    .prose a { color: #22c55e; text-decoration: none; }
+    .prose a:hover { color: #16a34a; }
+    html { scroll-behavior: smooth; }
+    .heading-anchor { @apply ml-2 text-gray-400 opacity-0 transition-opacity duration-200; }
+    h2:hover .heading-anchor, h3:hover .heading-anchor, h4:hover .heading-anchor, h5:hover .heading-anchor, h6:hover .heading-anchor { @apply opacity-100; }
+</style>
+{% endblock %}

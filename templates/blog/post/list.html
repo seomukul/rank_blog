@@ -1,0 +1,169 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% load blog_tags %}
+
+{% block title %}
+    {% if category %}
+        {{ category.name }} - Rank Challenger
+    {% elif tag %}
+        Posts tagged with "{{ tag.name }}" - Rank Challenger
+    {% else %}
+        Rank Challenger - Python Development, SEO & Affiliate Marketing Blog
+    {% endif %}
+{% endblock %}
+
+{% block meta %}
+<meta name="description" content="Discover practical Python tutorials, SEO optimization strategies, and affiliate marketing guides to boost your online presence and revenue.">
+<meta name="keywords" content="python programming, SEO tips, affiliate marketing, django tutorials, digital marketing, web development, monetization">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-[#2f3730] text-white">
+    <!-- Main Hero -->
+    <div class="max-w-7xl mx-auto px-4 py-16 md:py-24">
+        {% if category %}
+            <!-- Category Hero -->
+            <div class="max-w-4xl">
+                <h1 class="text-4xl md:text-5xl font-serif mb-6">{{ category.name }}</h1>
+                <p class="text-lg text-white/80 mb-8">{{ category.description|default:"Explore our latest articles and tutorials in this category." }}</p>
+            </div>
+        {% elif tag %}
+            <!-- Tag Hero -->
+            <div class="max-w-4xl">
+                <span class="text-[#22c55e] text-sm font-medium mb-4 block">Tagged Posts</span>
+                <h1 class="text-4xl md:text-5xl font-serif mb-6">#{{ tag.name }}</h1>
+                <p class="text-lg text-white/80 mb-8">Articles and tutorials tagged with "{{ tag.name }}"</p>
+            </div>
+        {% else %}
+            <!-- Homepage Hero -->
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <span class="text-[#22c55e] text-sm font-medium mb-4 block">Welcome to Rank Challenger</span>
+                    <h1 class="text-4xl md:text-5xl font-serif mb-6">Master Python, SEO & Affiliate Marketing</h1>
+                    <p class="text-lg text-white/80 mb-8">Practical tutorials and strategies to help you build powerful applications, optimize for search engines, and generate passive income through affiliate marketing.</p>
+                    
+                    <!-- Featured Categories -->
+                    <div class="flex flex-wrap gap-3">
+                        <a href="{% url 'blog:post_list_by_category' 'python' %}" 
+                           class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full text-sm transition-colors">
+                            Python Development
+                        </a>
+                        <a href="{% url 'blog:post_list_by_category' 'seo' %}" 
+                           class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full text-sm transition-colors">
+                            SEO Strategies
+                        </a>
+                        <a href="{% url 'blog:post_list_by_category' 'affiliate' %}" 
+                           class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full text-sm transition-colors">
+                            Affiliate Marketing
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Featured Post Preview -->
+                {% with latest_post=posts.0 %}
+                {% if latest_post %}
+                <div class="bg-white/5 p-6 rounded-2xl backdrop-blur">
+                    <span class="text-[#22c55e] text-sm mb-2 block">Latest Article</span>
+                    <h2 class="text-xl font-serif mb-4">{{ latest_post.title }}</h2>
+                    <p class="text-white/70 mb-4 line-clamp-3">{{ latest_post.body|striptags|truncatewords:30 }}</p>
+                    <a href="{{ latest_post.get_absolute_url }}" 
+                       class="inline-flex items-center text-[#22c55e] hover:text-[#22c55e]/80 transition-colors">
+                        Read More
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </a>
+                </div>
+                {% endif %}
+                {% endwith %}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Stats Bar (Homepage Only) -->
+    {% if not category and not tag %}
+    <div class="border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 py-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div>
+                    <div class="text-3xl font-serif text-[#22c55e] mb-2">{{ posts.count }}+</div>
+                    <div class="text-sm text-white/60">Articles & Tutorials</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-serif text-[#22c55e] mb-2">3</div>
+                    <div class="text-sm text-white/60">Core Topics</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-serif text-[#22c55e] mb-2">24/7</div>
+                    <div class="text-sm text-white/60">Learning Access</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-serif text-[#22c55e] mb-2">100%</div>
+                    <div class="text-sm text-white/60">Practical Content</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</section>
+
+<!-- Posts Section -->
+<div class="max-w-4xl mx-auto px-4 py-12">
+    <!-- Posts List -->
+    <div class="space-y-8">
+        {% for post in posts %}
+            <article class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+                <!-- Post Date -->
+                <div class="inline-block px-3 py-1 mb-4 text-sm bg-gray-100 rounded-md">
+                    Updated {{ post.updated|date:"M d, Y" }}
+                </div>
+
+                <!-- Post Title -->
+                <h2 class="text-2xl font-serif mb-3">
+                    <a href="{{ post.get_absolute_url }}" 
+                       class="text-[#0f1e17] hover:text-[#0f1e17]/80 transition-colors duration-300">
+                        {{ post.title }}
+                    </a>
+                </h2>
+
+                <!-- Post Excerpt -->
+                <p class="text-gray-600 mb-4">
+                    {{ post.body|striptags|truncatewords:30 }}
+                </p>
+
+                <!-- Arrow Icon -->
+                <div class="text-right">
+                    <a href="{{ post.get_absolute_url }}" 
+                       class="text-[#0f1e17]/60 hover:text-[#0f1e17] transition-colors duration-300">
+                        →
+                    </a>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if posts.has_other_pages %}
+        <div class="flex justify-center space-x-4 mt-12">
+            {% if posts.has_previous %}
+                <a href="?page={{ posts.previous_page_number }}" 
+                   class="px-4 py-2 bg-white border border-[#0f1e17]/20 rounded-full hover:bg-[#0f1e17]/5 transition-colors duration-300">
+                    Previous
+                </a>
+            {% endif %}
+            
+            <span class="px-4 py-2 text-[#0f1e17]/60">
+                Page {{ posts.number }} of {{ posts.paginator.num_pages }}
+            </span>
+            
+            {% if posts.has_next %}
+                <a href="?page={{ posts.next_page_number }}"
+                   class="px-4 py-2 bg-white border border-[#0f1e17]/20 rounded-full hover:bg-[#0f1e17]/5 transition-colors duration-300">
+                    Next
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,170 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block title %}Contact - Rank Challenger | Python, SEO & Affiliate Marketing Blog{% endblock %}
+
+{% block meta %}
+<meta name="description" content="Get in touch with Rank Challenger for Python development inquiries, SEO consultations, or affiliate marketing collaborations. We're here to help you succeed.">
+<meta name="keywords" content="contact, python development help, SEO consultation, affiliate marketing support, digital marketing assistance">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<header class="bg-[#2f3730] text-white py-16">
+    <div class="max-w-4xl mx-auto px-4">
+        <h1 class="text-4xl md:text-5xl font-serif mb-4">Contact Us</h1>
+        <p class="text-lg text-white/80">Have questions? We're here to help you succeed in your digital journey.</p>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="max-w-4xl mx-auto px-4 py-12">
+    <div class="grid md:grid-cols-2 gap-12">
+        <!-- Contact Form -->
+        <div>
+            <h2 class="text-2xl font-serif text-[#2f3730] mb-6">Send a Message</h2>
+            
+            {% if messages %}
+            <div class="mb-6">
+                {% for message in messages %}
+                <div class="p-4 rounded-lg {% if message.tags == 'success' %}bg-green-100 text-green-700{% else %}bg-red-100 text-red-700{% endif %}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <form class="space-y-6" action="{% url 'blog:contact' %}" method="POST" onsubmit="return validateForm()">
+                {% csrf_token %}
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                    <input 
+                        type="text" 
+                        id="name" 
+                        name="name" 
+                        placeholder="Your name"
+                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:border-transparent"
+                        required
+                    >
+                </div>
+
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="your.email@example.com"
+                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:border-transparent"
+                        required
+                    >
+                </div>
+
+                <div>
+                    <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone (optional)</label>
+                    <input 
+                        type="tel" 
+                        id="phone" 
+                        name="phone" 
+                        placeholder="Your phone number"
+                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:border-transparent"
+                    >
+                </div>
+
+                <div>
+                    <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                    <textarea 
+                        id="message" 
+                        name="message" 
+                        rows="6" 
+                        placeholder="How can we help you?"
+                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:border-transparent resize-none"
+                        required
+                    ></textarea>
+                </div>
+
+                <button 
+                    type="submit"
+                    class="bg-[#2f3730] text-white px-6 py-3 rounded-lg hover:bg-[#2f3730]/90 transition-colors inline-flex items-center gap-2"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+                    </svg>
+                    Send Message
+                </button>
+            </form>
+        </div>
+
+        <!-- Contact Info -->
+        <div>
+            <h2 class="text-2xl font-serif text-[#2f3730] mb-6">Get in Touch</h2>
+            
+            <div class="prose prose-lg text-gray-600 mb-8">
+                <p>Whether you need help with Python development, SEO optimization, or affiliate marketing strategies, we're here to assist you. Feel free to reach out with any questions or collaboration opportunities.</p>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-serif text-[#2f3730] mb-4">Services We Offer</h3>
+                    <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-[#22c55e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            Python Development Consultation
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-[#22c55e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            SEO Strategy Planning
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-[#22c55e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            Affiliate Marketing Guidance
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-[#22c55e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            Digital Marketing Strategy
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-serif text-[#2f3730] mb-4">Response Time</h3>
+                    <p class="text-gray-600">We typically respond within 24-48 hours during business days. For urgent inquiries, please indicate in your message.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+function validateForm() {
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    
+    // Basic email validation
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+        alert('Please enter a valid email address');
+        return false;
+    }
+    
+    // Phone validation (if provided)
+    if (phone) {
+        const phonePattern = /^\d{10}$/;
+        if (!phonePattern.test(phone.replace(/\D/g, ''))) {
+            alert('Please enter a valid 10-digit phone number');
+            return false;
+        }
+    }
+    
+    return true;
+}
+</script>
+{% endblock %}
