@@ -149,3 +149,6 @@ webencodings==0.5.1
 websocket-client==1.8.0
 websockets==13.1
 yarl==1.14.0
+python-decouple==3.8
+django-taggit==5.0.1
+Markdown==3.6
